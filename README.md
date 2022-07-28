@@ -2,7 +2,8 @@
 
 <!-- Plugin description -->
 
-A plugin that helps you by letting you see what icon you're using with Jetpack Compose. Bringing back the gutter icons, you don't need a preview anymore to see what an icon looks like !
+A plugin that helps you by letting you see what icon you're using with Jetpack Compose. 
+Bringing back the gutter icons, you don't need a preview anymore to see what an icon looks like !
 
 <!-- Plugin description end -->
 

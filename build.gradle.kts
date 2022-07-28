@@ -5,6 +5,7 @@ fun properties(key: String) = project.findProperty(key).toString()
 
 plugins {
     // Java support
+    id("idea")
     id("java")
     // Kotlin support
     id("org.jetbrains.kotlin.jvm") version "1.6.10"
@@ -88,6 +89,9 @@ tasks {
                 getOrNull(properties("pluginVersion")) ?: getLatest()
             }.toHTML()
         })
+
+        this.finalizedBy(buildPlugin)
+        this.finalizedBy(publishPlugin)
     }
 
     // Configure UI tests plugin
@@ -106,8 +110,9 @@ tasks {
     }
 
     publishPlugin {
+        val capToken: String by project
         dependsOn("patchChangelog")
-        token.set(System.getenv("PUBLISH_TOKEN"))
+        token.set(capToken)
         // pluginVersion is based on the SemVer (https://semver.org) and supports pre-release labels, like 2.1.7-alpha.3
         // Specify pre-release label to publish the plugin in a custom Release Channel automatically. Read more:
         // https://plugins.jetbrains.com/docs/intellij/deployment.html#specifying-a-release-channel
