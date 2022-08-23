@@ -10,7 +10,7 @@ import icons.ComposeIcons
 import javax.swing.Icon
 
 class GutterComposeIconViewer: RelatedItemLineMarkerProvider() {
-    private val regexGetIcons = Regex("(Icons)\\.(.+)\\.([^,)]*)")
+    private val regexGetIcons = Regex("(Icons\\n?)\\.([\\w\\n]*)\\.([\\w]*)")
 
     override fun collectNavigationMarkers(
         element: PsiElement,
@@ -20,11 +20,8 @@ class GutterComposeIconViewer: RelatedItemLineMarkerProvider() {
             return
         }
 
-        val iconUsed = regexGetIcons.matchEntire(element.text)?.value?.split(".")?.get(2) ?: ""
-
+        val iconUsed = regexGetIcons.matchEntire(element.text)?.groupValues?.get(2) ?: ""
         val icon: Icon = getIconFromString(iconUsed)
-        /*val logger = Logger.getInstance(this.javaClass)
-        logger.error("Icon searched : $iconUsed, Icon got : $icon")*/
 
         result.add(
             getResult(element, icon)
@@ -32,7 +29,6 @@ class GutterComposeIconViewer: RelatedItemLineMarkerProvider() {
     }
 
     private fun getResult(element: PsiElement, icon: Icon): RelatedItemLineMarkerInfo<PsiElement> {
-        /* Backward compatibility with older versions of IDEA */
         return object : RelatedItemLineMarkerInfo<PsiElement>(
             element,
             element.textRange,
